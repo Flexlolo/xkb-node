@@ -25,7 +25,7 @@ Usage
 
 ### Options
 
-- `-d, --default		Set default layout to all new windows` 
+- `-d, --default`		Set default layout to all new windows
 
 Credits
 -------
