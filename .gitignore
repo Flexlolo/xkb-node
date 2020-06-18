@@ -1,3 +1,7 @@
+# Dependencies
+docopt.cpp/
+docopt.cpp/*
+
 # Prerequisites
 *.d
 

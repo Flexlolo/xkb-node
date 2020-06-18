@@ -13,7 +13,7 @@ $(objects): %.o: %.cpp $(headers)
 	$(CXX) $(CXXFLAGS) -Wall -c -o $@ $<
 
 $(program): $(objects)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $^ -lX11
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $^ -lX11 -ldocopt
 
 clean:
 	rm -f $(program) $(objects)

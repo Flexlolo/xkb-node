@@ -6,7 +6,20 @@
 #include <unordered_map> 
 #include <vector>
 
+#include "docopt.cpp/docopt.h"
+
 #include "XKeyboard.h"
+
+static const char USAGE[] =
+R"(Usage:
+  xkb-node [options] [-]
+
+Options:
+  -h --help         Show this message.
+  --version         Show version.
+  -d, --default     Set default layout to all new windows
+)";
+
 
 using namespace std;
 
@@ -19,51 +32,53 @@ vector<string> string_split(string s)
 	return vector<string>(begin, end);
 }
 
-unordered_map<string, int> layouts;
-
-int layout_window(string window)
-{
-	if (layouts.find(window) != layouts.end())
-	{
-		return layouts[window];
-	}
-	
-	return 0;
-}
-
-void layout_window_erase(string window)
-{
-	if (layouts.find(window) != layouts.end())
-	{
-		layouts.erase(window);
-	}
-}
-
 int main(int argc, char const *argv[])
 {
+	map<string, docopt::value> args = docopt::docopt(USAGE, 
+													{ argv + 1, argv + argc },
+													true,               // show help if requested
+													"xkb-node v1.1");  // version string
+
 	XKeyboard xkb;
+
+	unordered_map<string, int> layouts;
 	string window_last = "";
 
 	for (string line; getline(cin, line);) 
 	{
-		vector<string> args = string_split(line);
+		vector<string> parts = string_split(line);
 
-		if (args[0] == "node_focus")
+		if (parts[0] == "node_focus")
 		{
-			string window = args[3];
+			string window = parts[3];
+			int layout = xkb.currentGroupNum();
+
 			if (window_last.length())
 			{
-				layouts[window_last] = xkb.currentGroupNum();
+				layouts[window_last] = layout;
 			}
 
-			xkb.setGroupByNum(layout_window(window));
+			if (layouts.find(window) != layouts.end())
+			{
+				layout = layouts[window];
+			}
+			else if (args["--default"].asBool())
+			{
+				layout = 0;
+			}
+
+			xkb.setGroupByNum(layout);
+			layouts[window] = layout;
 			window_last = window;
 		}
-		else if (args[0] == "node_remove")
+		else if (parts[0] == "node_remove")
 		{
-			string window = args[3];
+			string window = parts[3];
 
-			layout_window_erase(window);
+			if (layouts.find(window) != layouts.end())
+			{
+				layouts.erase(window);
+			}
 		}
 	}
 
