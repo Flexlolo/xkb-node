@@ -10,7 +10,7 @@ It reads events from bspc through pipe and keeps track of window layout once you
 Dependencies
 ------------
 
-	docopt.cpp (https://github.com/docopt/docopt.cpp)
+- docopt.cpp (https://github.com/docopt/docopt.cpp)
 
 Compilation and installation
 ----------------------------
@@ -25,7 +25,7 @@ Usage
 
 ### Options
 
-- `-d, --default		Set default layout to all new windows` 
+- `-d, --default`		Set default layout to all new windows
 
 Credits
 -------
