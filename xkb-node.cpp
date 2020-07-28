@@ -6,7 +6,7 @@
 #include <unordered_map> 
 #include <vector>
 
-#include "docopt.cpp/docopt.h"
+#include "docopt/docopt.h"
 
 #include "XKeyboard.h"
 
@@ -37,7 +37,7 @@ int main(int argc, char const *argv[])
 	map<string, docopt::value> args = docopt::docopt(USAGE, 
 													{ argv + 1, argv + argc },
 													true,               // show help if requested
-													"xkb-node v1.1");  // version string
+													"xkb-node v1.1");   // version string
 
 	XKeyboard xkb;
 
