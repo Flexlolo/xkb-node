@@ -1,6 +1,5 @@
-# Dependencies
-docopt.cpp/
-docopt.cpp/*
+# Compiled program
+xkb-node
 
 # Prerequisites
 *.d
